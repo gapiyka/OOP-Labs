@@ -1,24 +1,5 @@
 #include "pch.h"
-#include "module3.h"
 #include "module2.h"
-#include "Resource.h"
-
-static void OnClickNext(HWND hDlg)
-{
-    EndDialog(hDlg, 1);
-
-    Func_MOD3(hInst, hDlg);
-}
-
-static void OnClickCancel(HWND hDlg)
-{
-    EndDialog(hDlg, 0);
-}
-
-static void OnClickClose(HWND hDlg)
-{
-    EndDialog(hDlg, 0);
-}
 
 static INT_PTR CALLBACK Work_MOD2(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -29,16 +10,16 @@ static INT_PTR CALLBACK Work_MOD2(HWND hDlg, UINT message, WPARAM wParam, LPARAM
         switch (LOWORD(wParam))
         {
         case IDC_CANCEL1_MOD2:
-            OnClickCancel(hDlg);
+            EndDialog(hDlg, 0);
             return (INT_PTR)TRUE;
         case IDC_NEXT_MOD2:
-            OnClickNext(hDlg);
+            EndDialog(hDlg, 1);
             return (INT_PTR)TRUE;
         }
         break;
     case WM_CLOSE:
     {
-        OnClickClose(hDlg);
+        EndDialog(hDlg, 0);
     }
     break;
     }

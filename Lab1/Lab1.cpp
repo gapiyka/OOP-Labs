@@ -2,6 +2,7 @@
 #include "Lab1.h"
 #include "module1.h"
 #include "module2.h"
+#include "module3.h"
 
 #define MAX_LOADSTRING 100
 
@@ -16,11 +17,14 @@ static INT_PTR CALLBACK About(HWND, UINT, WPARAM, LPARAM);
 
 static void Work1(HWND hWnd);
 static void Work2(HWND hWnd);
+static int CountDigits(int pos);
 static void OutputText(HWND hWnd);
 
+
+static int numOfDig_MOD1;
 static int textHeightPosition = 0;
 static int textWidthPosition = 0;
-static TCHAR str[255] = { 0 };
+int pos;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -80,7 +84,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
     hInst = hInstance;
 
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+    HWND hWnd = CreateWindowW(szWindowClass, LPCWSTR("Lab1"), WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd)
@@ -96,6 +100,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    PAINTSTRUCT ps;
+    HDC hdc;
+
     switch (message)
     {
     case WM_COMMAND:
@@ -165,29 +172,48 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 void Work1(HWND hWnd)
 {
-    Func_MOD1(hInst,hWnd,str);
+    Func_MOD1(hInst, hWnd, &pos);
     InvalidateRect(hWnd, 0, TRUE);
 }
 
 void Work2(HWND hWnd)
 {
-    Func_MOD2(hInst, hWnd);
+    int DialogResult1;
+    int DialogResult2;
+    DialogResult1 = Func_MOD2(hInst, hWnd);
+    while (true) {
+        if (DialogResult1 == 1) {
+            DialogResult2 = Func_MOD3(hInst, hWnd);
+        }
+        else break;
+        if (DialogResult2 == -1) DialogResult1 = Func_MOD2(hInst, hWnd);
+        else break;
+    }
+
     InvalidateRect(hWnd, 0, TRUE);
 }
 
 void OutputText(HWND hWnd)
 {
-    PAINTSTRUCT ps;
+    TCHAR str[255] = { 0 };
     UpdateWindow(hWnd);
+    PAINTSTRUCT ps;
     HDC hdc = BeginPaint(hWnd, &ps);
 
-    if (canWrite_MOD1)
-    {
-        _itoa_s(pos, str, sizeof(pos), 10);
-        canWrite_MOD1 = FALSE;
-    }
-
-    TextOutA(hdc, 0, 0, str, numOfDig_MOD1);
+    _itoa_s(pos, str, sizeof(pos), 10);
+    numOfDig_MOD1 = CountDigits(pos);
+    TextOutA(hdc, textWidthPosition, textHeightPosition, str, numOfDig_MOD1);
 
     EndPaint(hWnd, &ps);
+}
+
+int CountDigits(int pos)
+{
+    int count_MOD1 = 0;
+    while (pos != 0)
+    {
+        pos = pos / 10;
+        ++count_MOD1;
+    }
+    return count_MOD1;
 }

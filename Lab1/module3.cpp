@@ -1,25 +1,5 @@
 #include "pch.h"
-#include "framework.h"
 #include "module3.h"
-#include "module2.h"
-#include "Resource.h"
-
-static void OnClickBack(HWND hDlg)
-{
-    EndDialog(hDlg, -1);
-    Func_MOD2(hInst, hDlg);
-}
-
-static void OnClickOk(HWND hDlg)
-{
-    EndDialog(hDlg, 1);
-}
-
-static void OnClickCancel(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    EndDialog(hDlg, 0);
-    DefWindowProc(hDlg, message, wParam, lParam);
-}
 
 static INT_PTR CALLBACK Work2_MOD2(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -30,13 +10,13 @@ static INT_PTR CALLBACK Work2_MOD2(HWND hDlg, UINT message, WPARAM wParam, LPARA
         switch (LOWORD(wParam))
         {
         case IDC_OK2_MOD2:
-            OnClickOk(hDlg);
+            EndDialog(hDlg, 1);
             return (INT_PTR)TRUE;
         case IDC_CANCEL2_MOD2:
-            OnClickCancel(hDlg, message, wParam, lParam);
+            EndDialog(hDlg, 0);
             return (INT_PTR)TRUE;
         case IDC_BACK_MOD2:
-            OnClickBack(hDlg);
+            EndDialog(hDlg, -1);
             return (INT_PTR)TRUE;
         }
         break;

@@ -10,9 +10,7 @@
 #define IDC_SCROLLBAR1_MOD1             1002
 #define IDC_STATIC_MOD1                 1003
 
-extern int pos;
-extern int numOfDig_MOD1;
-extern BOOL canWrite_MOD1;
+
 
 #endif // MODULE_1_H
 

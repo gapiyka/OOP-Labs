@@ -3,15 +3,10 @@
 
 #pragma region VariablesAndFunctionsDeclarations
 
-static int const maxSymbols = 255;
-static char tempPlaceForText[maxSymbols] = { 0 };
-
-int pos;
+static int pos;
 static int nMinPos = 1;
 static int nMaxPos = 100;
 static HWND hWndScrollBar_MOD1;
-BOOL canWrite_MOD1 = FALSE;
-int numOfDig_MOD1;
 
 static INT_PTR CALLBACK Work1_MOD1(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam);
 
@@ -23,12 +18,12 @@ static void OnClose(HWND hDlg);
 static void GetCurPos(HWND hDlg);
 
 static void OnThumbPosAndTrack(HWND hDlg, WPARAM wParam);
-static int CountDigits(int pos);
 
-int Func_MOD1(HINSTANCE hInst, HWND hWnd, char *dest)
+int Func_MOD1(HINSTANCE hInst, HWND hWnd, int* i)
 {
-    return DialogBox(hInst , MAKEINTRESOURCE(IDD_WORK_MOD1), hWnd, Work1_MOD1);
-    dest = tempPlaceForText;
+    int res = DialogBox(hInst, MAKEINTRESOURCE(IDD_WORK_MOD1), hWnd, Work1_MOD1);
+    *i = pos;
+    return res;
 }
 
 INT_PTR CALLBACK Work1_MOD1(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
@@ -108,8 +103,6 @@ void OnThumbPosAndTrack(HWND hDlg, WPARAM wParam)
 
 void OnClickOk(HWND hDlg)
 {
-    canWrite_MOD1 = TRUE;
-    numOfDig_MOD1 = CountDigits(pos);
     EndDialog(hDlg, 1);
 }
 
@@ -127,15 +120,4 @@ void OnClose(HWND hDlg)
 void GetCurPos(HWND hDlg)
 {
     pos = GetScrollPos(GetDlgItem(hDlg, IDC_SCROLLBAR1_MOD1), SB_CTL);
-}
-
-int CountDigits(int pos)
-{
-    int count_MOD1 = 0;
-    while (pos != 0)
-    {
-        pos = pos / 10;
-        ++count_MOD1;
-    }
-    return count_MOD1;
 }

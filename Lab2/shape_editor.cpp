@@ -25,40 +25,48 @@ ShapeObjectsEditor::~ShapeObjectsEditor()
 	}
 }
 
-void ShapeObjectsEditor::StartPointEditor()
+void ShapeObjectsEditor::StartPointEditor(HWND hWnd)
 {
+	static const LPCSTR POINT_NAME = "Крапка";
 	if (pse)
 	{
 		delete pse;
 	}
 	pse = new PointEditor;
+	SetWindowTextA(hWnd, POINT_NAME);
 }
 
-void ShapeObjectsEditor::StartLineEditor()
+void ShapeObjectsEditor::StartLineEditor(HWND hWnd)
 {
+	static const LPCSTR LINE_NAME = "Лінія";
 	if (pse)
 	{
 		delete pse;
 	}
 	pse = new LineEditor;
+	SetWindowTextA(hWnd, LINE_NAME);
 }
 
-void ShapeObjectsEditor::StartRectangleEditor()
+void ShapeObjectsEditor::StartRectangleEditor(HWND hWnd)
 {
+	static const LPCSTR RECTANGLE_NAME = "Прямокутник";
 	if (pse)
 	{
 		delete pse;
 	}
 	pse = new RectangleEditor;
+	SetWindowTextA(hWnd, RECTANGLE_NAME);
 }
 
-void ShapeObjectsEditor::StartEllipseEditor()
+void ShapeObjectsEditor::StartEllipseEditor(HWND hWnd)
 {
+	static const LPCSTR ELLIPSE_NAME = "Овал";
 	if (pse)
 	{
 		delete pse;
 	}
 	pse = new EllipseEditor;
+	SetWindowTextA(hWnd, ELLIPSE_NAME);
 }
 
 void ShapeObjectsEditor::OnLMBdown(HWND hWnd)

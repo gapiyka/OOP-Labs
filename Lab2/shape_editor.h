@@ -22,10 +22,10 @@ private:
 public:
 	ShapeObjectsEditor(void);
 	~ShapeObjectsEditor();
-	void StartPointEditor();
-	void StartLineEditor();
-	void StartRectangleEditor();
-	void StartEllipseEditor();
+	void StartPointEditor(HWND);
+	void StartLineEditor(HWND);
+	void StartRectangleEditor(HWND);
+	void StartEllipseEditor(HWND);
 	void OnLMBdown(HWND);
 	void OnLMBup(HWND);
 	void OnMouseMove(HWND);

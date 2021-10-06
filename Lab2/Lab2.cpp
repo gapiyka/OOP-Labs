@@ -3,7 +3,6 @@
 #include "Lab2.h"
 #include "Resource.h"
 #include "shape_editor.h"
-#include "default_names.h"
 
 #define MAX_LOADSTRING 100
 
@@ -12,7 +11,6 @@ WCHAR szTitle[MAX_LOADSTRING];
 WCHAR szWindowClass[MAX_LOADSTRING];
 
 ShapeObjectsEditor editorShape;
-LPCSTR currentShape;
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -129,24 +127,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
     {
         int wmId = LOWORD(wParam);
-        currentShape = DEFAULT_NAME;
         switch (wmId)
         {
         case IDM_POINT:
-            editorShape.StartPointEditor();
-            currentShape = POINT_NAME;
+            editorShape.StartPointEditor(hWnd);
             break;
         case IDM_LINE:
-            editorShape.StartLineEditor();
-            currentShape = LINE_NAME;
+            editorShape.StartLineEditor(hWnd);
             break;
         case IDM_RECTANGLE:
-            editorShape.StartRectangleEditor();
-            currentShape = RECTANGLE_NAME;
+            editorShape.StartRectangleEditor(hWnd);
             break;
         case IDM_ELLIPSE:
-            editorShape.StartEllipseEditor();
-            currentShape = ELLIPSE_NAME;
+            editorShape.StartEllipseEditor(hWnd);
             break;
         case IDM_ABOUT:
             DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
@@ -157,7 +150,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         default:
             return DefWindowProcW(hWnd, message, wParam, lParam);
         }
-        SetWindowTextA(hWnd, currentShape);
     }
     break;
     case WM_DESTROY:

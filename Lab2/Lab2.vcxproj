@@ -151,7 +151,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="colors.h" />
-    <ClInclude Include="default_names.h" />
     <ClInclude Include="editor.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Lab2.h" />

@@ -1,0 +1,5 @@
+﻿  Lab3.cpp
+  toolbar.cpp
+C:\Users\Денис\Documents\GitHub\OOP-Labs\Lab3\Lab3\toolbar.cpp(100,12): warning C4101: pText: неиспользованная локальная переменная
+  Создание кода...
+  Lab3.vcxproj -> C:\Users\Денис\Documents\GitHub\OOP-Labs\Lab3\Lab3\Debug\Lab3.exe

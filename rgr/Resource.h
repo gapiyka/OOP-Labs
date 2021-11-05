@@ -11,9 +11,14 @@
 #define IDI_SMALL				108
 #define IDC_RGR					109
 #define IDC_MYICON				2
-#define IDM_BRIGHTNESS          32804
-#define IDM_CONTRAST			32805
-#define IDM_RGB					32806
+#define IDM_OPENFILE	        32801
+#define IDM_SAVEFILE	        32802
+#define IDM_ZOOM				32803
+#define IDM_UNZOOM				32804
+#define IDM_HAND				32805
+#define IDM_BRIGHTNESS          32806
+#define IDM_CONTRAST			32807
+#define IDM_RGB					32808
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1
 #endif

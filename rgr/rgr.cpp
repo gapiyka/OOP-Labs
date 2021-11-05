@@ -6,6 +6,8 @@ HINSTANCE hInst;
 WCHAR szTitle[MAX_LOADSTRING];      
 WCHAR szWindowClass[MAX_LOADSTRING];
 
+Toolbar toolbar;
+
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -92,6 +94,30 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             int wmId = LOWORD(wParam);
             switch (wmId)
             {
+            case IDM_OPENFILE:
+                toolbar.OnToolOpenFile();
+                break;
+            case IDM_SAVEFILE:
+                toolbar.OnToolSaveFile();
+                break;
+            case IDM_ZOOM:
+                toolbar.OnToolZoom();
+                break;
+            case IDM_UNZOOM:
+                toolbar.OnToolUnzoom();
+                break;
+            case IDM_HAND:
+                toolbar.OnToolHand();
+                break;
+            case IDM_BRIGHTNESS:
+                toolbar.OnToolBrightness();
+                break;
+            case IDM_CONTRAST:
+                toolbar.OnToolContrast();
+                break;
+            case IDM_RGB:
+                toolbar.OnToolRGB();
+                break;
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
@@ -102,6 +128,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
         }
+        break;
+    case WM_CREATE:
+        toolbar.OnCreate(hWnd);
+        break;
+    case WM_SIZE:
+        toolbar.OnSize(hWnd);
+        break;
+    case WM_NOTIFY:
+        toolbar.OnNotify(hWnd, lParam);
         break;
     case WM_PAINT:
         {

@@ -139,20 +139,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="files.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="rgr.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="toolbar.h" />
+    <ClInclude Include="toolbar_resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="files.cpp" />
     <ClCompile Include="rgr.cpp" />
+    <ClCompile Include="toolbar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="rgr.rc" />
+    <ResourceCompile Include="toolbar.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="rgr.ico" />
     <Image Include="small.ico" />
+    <Image Include="toolbar.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

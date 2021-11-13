@@ -7,6 +7,7 @@ WCHAR szTitle[MAX_LOADSTRING];
 WCHAR szWindowClass[MAX_LOADSTRING];
 
 Toolbar toolbar;
+Viewer *viewer = new Viewer();
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -95,7 +96,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             switch (wmId)
             {
             case IDM_OPENFILE:
-                toolbar.OnToolOpenFile();
+                toolbar.OnToolOpenFile(viewer);
                 break;
             case IDM_SAVEFILE:
                 toolbar.OnToolSaveFile();
@@ -139,11 +140,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         toolbar.OnNotify(hWnd, lParam);
         break;
     case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            EndPaint(hWnd, &ps);
-        }
+        viewer->Paint(hWnd, hInst);
         break;
     case WM_DESTROY:
         PostQuitMessage(0);

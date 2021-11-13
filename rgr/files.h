@@ -1,9 +1,14 @@
 #pragma once
-#include "rgr.h"
+#include "framework.h"
+#include "viewer.h"
+
 
 class Files
 {
+private:
+	OPENFILENAME ofn;
+	char szFile[100];
 public:
-	void OpenFile(HWND hWnd);
-	void SaveFile(HWND hWnd);
+	void OpenFile(Viewer *viewer);
+	void SaveFile();
 };

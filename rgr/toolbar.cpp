@@ -1,7 +1,8 @@
 #include "toolbar.h"
 
+Files files;
 
-void Toolbar::NotifyText(LPTOOLTIPTEXT lpttt, LPCWSTR text) {
+void Toolbar::NotifyText(LPTOOLTIPTEXT lpttt, LPCSTR text) {
     lstrcpy(lpttt->szText, text);
 }
 
@@ -46,64 +47,51 @@ void Toolbar::OnSize(HWND hWnd)
 
 void Toolbar::OnNewTool(int id) {
     SendMessage(hwndToolBar, TB_PRESSBUTTON, buttonToChange, 0);
-    openFile, saveFile, zoom, unzoom, hand, brightness, contrast, rgb, buttonToChange = 0;
     buttonToChange = id;
+
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, buttonToChange, 1);
 }
 
-void Toolbar::OnToolOpenFile()
+void Toolbar::OnToolOpenFile(Viewer *viewer)
 {
     OnNewTool(ID_TOOL_OPENFILE);
-    openFile = !openFile;
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_OPENFILE, openFile);
+    files.OpenFile(viewer);
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_OPENFILE, 0);
 }
 
 void Toolbar::OnToolSaveFile()
 {
     OnNewTool(ID_TOOL_SAVEFILE);
-    saveFile = !saveFile;
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_SAVEFILE, saveFile);
 }
 
 void Toolbar::OnToolZoom()
 {
     OnNewTool(ID_TOOL_ZOOM);
-    zoom = !zoom;
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_ZOOM, zoom);
 }
 
 void Toolbar::OnToolUnzoom()
 {
     OnNewTool(ID_TOOL_UNZOOM);
-    unzoom = !unzoom;
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_UNZOOM, unzoom);
 }
 
 void Toolbar::OnToolHand()
 {
     OnNewTool(ID_TOOL_HAND);
-    hand = !hand;
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_HAND, hand);
 }
 
 void Toolbar::OnToolBrightness()
 {
     OnNewTool(ID_TOOL_BRIGHTNESS);
-    brightness = !brightness;
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_BRIGHTNESS, brightness);
 }
 
 void Toolbar::OnToolContrast()
 {
     OnNewTool(ID_TOOL_CONTRAST);
-    contrast = !contrast;
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_CONTRAST, contrast);
 }
 
 void Toolbar::OnToolRGB()
 {
     OnNewTool(ID_TOOL_RGB);
-    rgb = !rgb;
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_RGB, rgb);
 }
 
 void Toolbar::OnNotify(HWND hWnd, LPARAM lParam)
@@ -116,30 +104,30 @@ void Toolbar::OnNotify(HWND hWnd, LPARAM lParam)
         switch (lpttt->hdr.idFrom)
         {
         case ID_TOOL_OPENFILE:
-            NotifyText(lpttt, L"Відкрити файл");
+            NotifyText(lpttt, "Відкрити файл");
             break;
         case ID_TOOL_SAVEFILE:
-            NotifyText(lpttt, L"Зберегти файл");
+            NotifyText(lpttt, "Зберегти файл");
             break;
         case ID_TOOL_ZOOM:
-            NotifyText(lpttt, L"Приблизити");
+            NotifyText(lpttt, "Приблизити");
             break;
         case ID_TOOL_UNZOOM:
-            NotifyText(lpttt, L"Віддалити");
+            NotifyText(lpttt, "Віддалити");
             break;
         case ID_TOOL_HAND:
-            NotifyText(lpttt, L"Переміщення");
+            NotifyText(lpttt, "Переміщення");
             break;
         case ID_TOOL_BRIGHTNESS:
-            NotifyText(lpttt, L"Яскравість");
+            NotifyText(lpttt, "Яскравість");
             break;
         case ID_TOOL_CONTRAST:
-            NotifyText(lpttt, L"Контрастність");
+            NotifyText(lpttt, "Контрастність");
             break;
         case ID_TOOL_RGB:
-            NotifyText(lpttt, L"Корекція RGB");
+            NotifyText(lpttt, "Корекція RGB");
             break;
-        default: NotifyText(lpttt, L"Щось не відоме");
+        default: NotifyText(lpttt, "Щось не відоме");
         }
     }
 }

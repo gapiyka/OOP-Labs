@@ -11,3 +11,4 @@
 #include <Commdlg.h>
 #include <commctrl.h>
 #pragma comment(lib, "comctl32.lib")
+using namespace std;

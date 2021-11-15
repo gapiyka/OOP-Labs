@@ -6,7 +6,7 @@ void Toolbar::NotifyText(LPTOOLTIPTEXT lpttt, LPCSTR text) {
     lstrcpy(lpttt->szText, text);
 }
 
-void Toolbar::OnCreate(HWND hWnd)
+void Toolbar::OnCreate(HWND hWnd, HINSTANCE hInst)
 {
     TBBUTTON tbb[TOOLS+1];
     ZeroMemory(tbb, sizeof(tbb));
@@ -45,53 +45,60 @@ void Toolbar::OnSize(HWND hWnd)
     }
 }
 
-void Toolbar::OnNewTool(int id) {
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, buttonToChange, 0);
-    buttonToChange = id;
-
-    SendMessage(hwndToolBar, TB_PRESSBUTTON, buttonToChange, 1);
-}
-
 void Toolbar::OnToolOpenFile(Viewer *viewer)
 {
-    OnNewTool(ID_TOOL_OPENFILE);
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_OPENFILE, 1);
     files.OpenFile(viewer);
     SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_OPENFILE, 0);
 }
 
-void Toolbar::OnToolSaveFile()
+void Toolbar::OnToolSaveFile(Viewer *viewer)
 {
-    OnNewTool(ID_TOOL_SAVEFILE);
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_SAVEFILE, 1);
+    files.SaveFile(viewer);
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_SAVEFILE, 0);
 }
 
-void Toolbar::OnToolZoom()
+void Toolbar::OnToolZoom(Viewer *viewer)
 {
-    OnNewTool(ID_TOOL_ZOOM);
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_ZOOM, 1);
+    viewer->zoomHDC();
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_ZOOM, 0);
 }
 
-void Toolbar::OnToolUnzoom()
+void Toolbar::OnToolUnzoom(Viewer* viewer)
 {
-    OnNewTool(ID_TOOL_UNZOOM);
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_UNZOOM, 1);
+    viewer->unzoomHDC();
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_UNZOOM, 0);
 }
 
-void Toolbar::OnToolHand()
+void Toolbar::OnToolHand(Viewer* viewer)
 {
-    OnNewTool(ID_TOOL_HAND);
+    IsMovePressed = !IsMovePressed;
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_HAND, IsMovePressed);
+    viewer->moveTool(IsMovePressed);
 }
 
 void Toolbar::OnToolBrightness()
 {
-    OnNewTool(ID_TOOL_BRIGHTNESS);
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_BRIGHTNESS, 1);
+    //
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_BRIGHTNESS, 0);
 }
 
 void Toolbar::OnToolContrast()
 {
-    OnNewTool(ID_TOOL_CONTRAST);
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_CONTRAST, 1);
+    //
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_CONTRAST, 0);
 }
 
 void Toolbar::OnToolRGB()
 {
-    OnNewTool(ID_TOOL_RGB);
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_RGB, 1);
+    //
+    SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_RGB, 0);
 }
 
 void Toolbar::OnNotify(HWND hWnd, LPARAM lParam)

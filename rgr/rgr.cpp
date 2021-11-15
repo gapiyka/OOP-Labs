@@ -7,6 +7,7 @@ WCHAR szTitle[MAX_LOADSTRING];
 WCHAR szWindowClass[MAX_LOADSTRING];
 
 Toolbar toolbar;
+Scrollbar scrollbar;
 Viewer *viewer = new Viewer();
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -72,7 +73,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance;
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN,
+   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | SBS_VERT,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
@@ -99,16 +100,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 toolbar.OnToolOpenFile(viewer);
                 break;
             case IDM_SAVEFILE:
-                toolbar.OnToolSaveFile();
+                toolbar.OnToolSaveFile(viewer);
                 break;
             case IDM_ZOOM:
-                toolbar.OnToolZoom();
+                toolbar.OnToolZoom(viewer);
                 break;
             case IDM_UNZOOM:
-                toolbar.OnToolUnzoom();
+                toolbar.OnToolUnzoom(viewer);
                 break;
             case IDM_HAND:
-                toolbar.OnToolHand();
+                toolbar.OnToolHand(viewer);
                 break;
             case IDM_BRIGHTNESS:
                 toolbar.OnToolBrightness();
@@ -131,7 +132,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_CREATE:
-        toolbar.OnCreate(hWnd);
+        toolbar.OnCreate(hWnd, hInst);
+        scrollbar.OnNewBmp(hWnd, 1, 100);
         break;
     case WM_SIZE:
         toolbar.OnSize(hWnd);
@@ -141,6 +143,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_PAINT:
         viewer->Paint(hWnd, hInst);
+        break;
+    case WM_LBUTTONDOWN:
+        viewer->OnLMBDown(hWnd);
+        break;
+    case WM_LBUTTONUP:
+        viewer->OnLMBUp(hWnd);
+        break;
+    case WM_MOUSEMOVE:
+        viewer->OnMouseMove(hWnd);
+        break;
+    case WM_VSCROLL:
+        viewer->setScrollY(hWnd, wParam, lParam);
+        break;
+    case WM_HSCROLL:
+        viewer->setScrollX(hWnd, wParam, lParam);
         break;
     case WM_DESTROY:
         PostQuitMessage(0);

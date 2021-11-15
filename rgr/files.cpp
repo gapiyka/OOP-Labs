@@ -18,10 +18,8 @@ void Files::OpenFile(Viewer *viewer)
 	GetOpenFileName(&ofn);
     
     viewer->setFile(ofn.lpstrFile);
-
-	
 }
 
-void Files::SaveFile() {
+void Files::SaveFile(Viewer *viewer) {
 
 }

@@ -143,6 +143,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="rgr.h" />
+    <ClInclude Include="scrollbar.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="toolbar.h" />
     <ClInclude Include="toolbar_resource.h" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="files.cpp" />
     <ClCompile Include="rgr.cpp" />
+    <ClCompile Include="scrollbar.cpp" />
     <ClCompile Include="toolbar.cpp" />
     <ClCompile Include="viewer.cpp" />
   </ItemGroup>

@@ -10,5 +10,5 @@ private:
 	char szFile[100];
 public:
 	void OpenFile(Viewer *viewer);
-	void SaveFile();
+	void SaveFile(Viewer* viewer);
 };

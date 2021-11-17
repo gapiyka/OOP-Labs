@@ -80,24 +80,24 @@ void Toolbar::OnToolHand(Viewer* viewer)
     viewer->moveTool(IsMovePressed);
 }
 
-void Toolbar::OnToolBrightness()
+void Toolbar::OnToolBrightness(Viewer* viewer)
 {
     SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_BRIGHTNESS, 1);
-    //
+    viewer->brightnessChange();
     SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_BRIGHTNESS, 0);
 }
 
-void Toolbar::OnToolContrast()
+void Toolbar::OnToolContrast(Viewer* viewer)
 {
     SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_CONTRAST, 1);
-    //
+    viewer->contrastChange();
     SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_CONTRAST, 0);
 }
 
-void Toolbar::OnToolRGB()
+void Toolbar::OnToolRGB(Viewer* viewer)
 {
     SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_RGB, 1);
-    //
+    viewer->rgbChange();
     SendMessage(hwndToolBar, TB_PRESSBUTTON, ID_TOOL_RGB, 0);
 }
 

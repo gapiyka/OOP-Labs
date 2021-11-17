@@ -1,5 +1,8 @@
 #include "framework.h"
 #include "scrollbar.h"
+#include "module1.h"
+#include "module2.h"
+#include "module3.h"
 #include <vector>
 
 class Viewer
@@ -11,21 +14,21 @@ private:
 	Scrollbar	scrollbar;
 	void resetScreen();
 	char* img_name;
+	const int STARTY = 37;
+	const int STARTX = 0;
 	int IsOpenedFile;
 	int img_width;
 	int img_height;
 	int scrollX;
 	int scrollY;
-	float zoom;
-	const int STARTY = 37;
-	const int STARTX = 0;
-	vector<COLORREF> pixelMatrix;
+	int isMoveTool;
 	int x1;
 	int y1;
 	int x2;
 	int y2;
-	BOOL isPressed = false;
-	int isMoveTool;
+	float zoom;
+	BOOL isPressed;
+	vector<COLORREF> pixelMatrix;
 public:
 	Viewer();
 	void Paint(HWND hwnd, HINSTANCE hinst);
@@ -41,4 +44,7 @@ public:
 	void OnLMBUp(HWND hWnd);
 	void OnMouseMove(HWND hWnd);
 	void moveTool(int is);
+	void brightnessChange();
+	void contrastChange();
+	void rgbChange();
 };

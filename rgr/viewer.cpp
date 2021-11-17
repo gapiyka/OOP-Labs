@@ -1,5 +1,6 @@
 #include "viewer.h"
 
+
 Viewer::Viewer() {
 	hWnd = NULL;
 	hInst = NULL;
@@ -8,6 +9,7 @@ Viewer::Viewer() {
 	scrollX = 0;
 	scrollY = 0;
 	isMoveTool = 0;
+	isPressed = false;
 }
 
 void Viewer::resetScreen() {
@@ -169,4 +171,92 @@ void Viewer::OnMouseMove(HWND hWnd)
 void Viewer::moveTool(int is)
 {
 	isMoveTool = is;
+}
+
+
+void Viewer::brightnessChange()
+{
+	int counter = 0;
+	int R, G, B, brightnessMultiplier;
+	Func_MOD1(hInst, hWnd, &brightnessMultiplier);
+
+	for (int y = 0; y < img_height; y++) {
+		for (int x = 0; x < img_width; x++) {
+			COLORREF color = pixelMatrix[counter];
+
+			R = GetRValue(color) + brightnessMultiplier;
+			G = GetGValue(color) + brightnessMultiplier;
+			B = GetBValue(color) + brightnessMultiplier;
+
+			if (R < 0) R = 0;
+			if (R > 255) R = 255;
+			if (G < 0) G = 0;
+			if (G > 255) G = 255;
+			if (B < 0) B = 0;
+			if (B > 255) B = 255;
+
+			pixelMatrix[counter] = RGB(R, G, B);
+			counter++;
+		}
+	}
+
+	resetScreen();
+}
+
+void Viewer::contrastChange()
+{
+	int counter = 0;
+	int R, G, B, contrast;
+	const int half = 127;
+	Func_MOD2(hInst, hWnd, &contrast);
+	float factor = (259.0 * (contrast + 255.0)) / (255.0 * (259.0 - contrast));
+	for (int y = 0; y < img_height; y++) {
+		for (int x = 0; x < img_width; x++) {
+			COLORREF color = pixelMatrix[counter];
+
+			R = (factor * (GetRValue(color) - 128) + 128);
+			G = (factor * (GetGValue(color) - 128) + 128);
+			B = (factor * (GetBValue(color) - 128) + 128);
+
+			if (R < 0) R = 0;
+			if (R > 255) R = 255;
+			if (G < 0) G = 0;
+			if (G > 255) G = 255;
+			if (B < 0) B = 0;
+			if (B > 255) B = 255;
+
+			pixelMatrix[counter] = RGB(R, G, B);
+			counter++;
+		}
+	}
+	resetScreen();
+}
+
+void Viewer::rgbChange()
+{
+	int counter = 0;
+	int R, G, B, rMultiplier, gMultiplier, bMultiplier;
+	Func_MOD3(hInst, hWnd, &rMultiplier, &gMultiplier, &bMultiplier);
+
+	for (int y = 0; y < img_height; y++) {
+		for (int x = 0; x < img_width; x++) {
+			COLORREF color = pixelMatrix[counter];
+
+			R = GetRValue(color) + rMultiplier;
+			G = GetGValue(color) + gMultiplier;
+			B = GetBValue(color) + bMultiplier;
+
+			if (R < 0) R = 0;
+			if (R > 255) R = 255;
+			if (G < 0) G = 0;
+			if (G > 255) G = 255;
+			if (B < 0) B = 0;
+			if (B > 255) B = 255;
+
+			pixelMatrix[counter] = RGB(R, G, B);
+			counter++;
+		}
+	}
+
+	resetScreen();
 }

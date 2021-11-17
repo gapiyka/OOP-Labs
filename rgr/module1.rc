@@ -1,0 +1,121 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "module1.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+"module1.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+"#include ""winres.h""\r\n"
+"\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+"\r\n"
+"\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    //
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_UKR)
+LANGUAGE LANG_UKRAINIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_WORK_MOD1 DIALOGEX 0, 0, 311, 92
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Зміна яскравості"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+DEFPUSHBUTTON   "Ок", IDOK, 199, 71, 50, 14
+PUSHBUTTON      "Скасувати", IDCANCEL, 254, 71, 50, 14
+SCROLLBAR       IDC_SCROLLBAR1_MOD1, 73, 41, 151, 11
+CTEXT           "0", IDC_STATIC_MOD1, 145, 17, 16, 11, WS_BORDER
+CTEXT           "Тускло", ID1_TEXT1, 48, 41, 25, 11
+CTEXT           "Світло", ID1_TEXT2, 229, 41, 25, 11
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+IDD_WORK_MOD1, DIALOG
+BEGIN
+LEFTMARGIN, 7
+RIGHTMARGIN, 304
+TOPMARGIN, 7
+BOTTOMMARGIN, 85
+END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_WORK_MOD1 AFX_DIALOG_LAYOUT
+BEGIN
+0,
+0, 0, 0, 0,
+0, 0, 0, 0,
+100, 0, 0, 0,
+0, 0, 0, 0
+END
+
+#endif    //
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

@@ -20,7 +20,7 @@ public:
 	void OnToolZoom(Viewer* viewer);
 	void OnToolUnzoom(Viewer* viewer);
 	void OnToolHand(Viewer* viewer);;
-	void OnToolBrightness();
-	void OnToolContrast();
-	void OnToolRGB();
+	void OnToolBrightness(Viewer* viewer);
+	void OnToolContrast(Viewer* viewer);
+	void OnToolRGB(Viewer* viewer);
 };

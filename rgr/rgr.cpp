@@ -112,13 +112,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 toolbar.OnToolHand(viewer);
                 break;
             case IDM_BRIGHTNESS:
-                toolbar.OnToolBrightness();
+                toolbar.OnToolBrightness(viewer);
                 break;
             case IDM_CONTRAST:
-                toolbar.OnToolContrast();
+                toolbar.OnToolContrast(viewer);
                 break;
             case IDM_RGB:
-                toolbar.OnToolRGB();
+                toolbar.OnToolRGB(viewer);
                 break;
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);

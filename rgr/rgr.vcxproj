@@ -141,7 +141,13 @@
   <ItemGroup>
     <ClInclude Include="files.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="module1.h" />
+    <ClInclude Include="module2.h" />
+    <ClInclude Include="module3.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="resource2.h" />
+    <ClInclude Include="resource3.h" />
     <ClInclude Include="rgr.h" />
     <ClInclude Include="scrollbar.h" />
     <ClInclude Include="targetver.h" />
@@ -151,12 +157,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="files.cpp" />
+    <ClCompile Include="module1.cpp" />
+    <ClCompile Include="module2.cpp" />
+    <ClCompile Include="module3.cpp" />
     <ClCompile Include="rgr.cpp" />
     <ClCompile Include="scrollbar.cpp" />
     <ClCompile Include="toolbar.cpp" />
     <ClCompile Include="viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="module1.rc" />
+    <ResourceCompile Include="module2.rc" />
+    <ResourceCompile Include="module3.rc" />
     <ResourceCompile Include="rgr.rc" />
     <ResourceCompile Include="toolbar.rc" />
   </ItemGroup>

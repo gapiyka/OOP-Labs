@@ -28,12 +28,13 @@ private:
 	int y2;
 	float zoom;
 	BOOL isPressed;
-	vector<COLORREF> pixelMatrix;
+	vector<COLORREF> pixelMatrix;	
 public:
 	Viewer();
 	void Paint(HWND hwnd, HINSTANCE hinst);
 	void setFile(char* name);
 	void loadFile(HDC hdc);
+	vector<COLORREF> saveFile(int* img_w, int* img_h);
 	void saveScreenRGB(HDC hdc);
 	void outputScreenRGB(HDC hdc);
 	void zoomHDC();

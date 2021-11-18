@@ -40,6 +40,12 @@ void Viewer::loadFile(HDC hdc) {
 	scrollbar.OnNewBmp(hWnd, img_width, img_height);
 }
 
+vector<COLORREF> Viewer::saveFile(int* img_w, int* img_h) {
+	*img_w = img_width;
+	*img_h = img_height;
+	return pixelMatrix;
+}
+
 void Viewer::Paint(HWND hwnd, HINSTANCE hinst)
 {
 	if (hWnd == NULL) {
@@ -75,10 +81,6 @@ void Viewer::saveScreenRGB(HDC hdc)
 			for (int x = 0; x < img_width; x++) {
 				pixelMatrix[counter] = GetPixel(hdc, x + STARTX, y + STARTY);
 				counter++;
-				//CHAR szBuffer[255];
-				//sprintf_s(szBuffer, "size: %d, %d, %d", x, y, (x - STARTX + 1) * (y - STARTY + 1));
-				//MessageBox(hWnd, szBuffer, "File", MB_OK);
-
 			}
 		}
 	}

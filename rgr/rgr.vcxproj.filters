@@ -115,4 +115,9 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+  </ItemGroup>
 </Project>

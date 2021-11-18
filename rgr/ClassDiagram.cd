@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Viewer">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIEAAwEDAAAoABAAEQEIBAAA1AwgjCEAQAQCBhIBBg=</HashCode>
+      <FileName>viewer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Toolbar">
+    <Position X="3" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAkAAAABAgAAAAiAgCREAABAAAAAgAAAgAA=</HashCode>
+      <FileName>toolbar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scrollbar">
+    <Position X="3" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAQAAAAAAAAAAAAAAAABAIAAwAQgAAA=</HashCode>
+      <FileName>scrollbar.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Files">
+    <Position X="5.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAECAAAAAAAAAAAAAAAAAAEAABAAAAAAAAAA=</HashCode>
+      <FileName>files.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

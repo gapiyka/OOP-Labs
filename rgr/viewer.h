@@ -28,15 +28,15 @@ private:
 	int y2;
 	float zoom;
 	BOOL isPressed;
-	vector<COLORREF> pixelMatrix;	
+	BYTE* pixelMatrix;	
+	BITMAPINFO MyBMInfo;
 public:
 	Viewer();
+	BYTE* getPixArray(HBITMAP hBitmap);
+	BYTE* saveFile(int* img_w, int* img_h);
 	void Paint(HWND hwnd, HINSTANCE hinst);
 	void setFile(char* name);
 	void loadFile(HDC hdc);
-	vector<COLORREF> saveFile(int* img_w, int* img_h);
-	void saveScreenRGB(HDC hdc);
-	void outputScreenRGB(HDC hdc);
 	void zoomHDC();
 	void unzoomHDC();
 	void setScrollX(HWND hWnd, WPARAM wParam, LPARAM lParam);

@@ -1,4 +1,5 @@
 #include "viewer.h"
+#include <fstream>
 
 
 Viewer::Viewer() {
@@ -10,6 +11,7 @@ Viewer::Viewer() {
 	scrollY = 0;
 	isMoveTool = 0;
 	isPressed = false;
+	pixelMatrix = new BYTE[1];
 }
 
 void Viewer::resetScreen() {
@@ -28,6 +30,7 @@ void Viewer::loadFile(HDC hdc) {
 	HBITMAP			oldBitmap;
 	HBITMAP			hBitmap;
 	hBitmap = (HBITMAP)LoadImage(NULL, img_name, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	pixelMatrix = getPixArray(hBitmap);
 	hdcMem = CreateCompatibleDC(hdc);
 	oldBitmap = (HBITMAP)SelectObject(hdcMem, hBitmap);
 	GetObject(hBitmap, sizeof(BITMAP), &bitmap);
@@ -40,7 +43,7 @@ void Viewer::loadFile(HDC hdc) {
 	scrollbar.OnNewBmp(hWnd, img_width, img_height);
 }
 
-vector<COLORREF> Viewer::saveFile(int* img_w, int* img_h) {
+BYTE* Viewer::saveFile(int* img_w, int* img_h) {
 	*img_w = img_width;
 	*img_h = img_height;
 	return pixelMatrix;
@@ -59,43 +62,43 @@ void Viewer::Paint(HWND hwnd, HINSTANCE hinst)
 
 	if (IsOpenedFile == 1) {
 		loadFile(hdc);
-		saveScreenRGB(hdc);
 		IsOpenedFile = 0;
 	}
 	else {
-		outputScreenRGB(hdc);
-		StretchBlt(hdc, STARTX, STARTY, STARTX + img_width * zoom, STARTY + img_height * zoom,
-			hdc, STARTX, STARTY, STARTX + img_width, STARTY + img_height, SRCCOPY);
-		 
+		StretchDIBits(hdc, STARTX - scrollX, STARTY - scrollY, img_width * zoom, img_height * zoom, 0, 0, img_width, img_height, pixelMatrix, &MyBMInfo, DIB_RGB_COLORS, SRCCOPY);
 	}
 
 	EndPaint(hWnd, &ps);
 }
 
-void Viewer::saveScreenRGB(HDC hdc)
+BYTE* Viewer::getPixArray(HBITMAP hBitmap)
 {
-	int counter = 0;
-	if (img_width >= 0 && img_height >= 0) {
-		pixelMatrix.resize(img_width * img_height + 1);
-		for (int y = 0; y < img_height; y++) {
-			for (int x = 0; x < img_width; x++) {
-				pixelMatrix[counter] = GetPixel(hdc, x + STARTX, y + STARTY);
-				counter++;
-			}
-		}
-	}
-	
-}
+	HDC hdc, hdcMem;
 
-void Viewer::outputScreenRGB(HDC hdc)
-{
-	int counter = 0;
-	for (int y = 0; y < img_height; y++) {
-		for (int x = 0; x < img_width; x++) {
-			SetPixel(hdc, x + STARTX - scrollX, y + STARTY - scrollY, pixelMatrix[counter]);
-			counter++;
-		}
+	hdc = GetDC(NULL);
+	hdcMem = CreateCompatibleDC(hdc);
+
+	MyBMInfo = { 0 };
+	MyBMInfo.bmiHeader.biSize = sizeof(MyBMInfo.bmiHeader);
+
+	if (0 == GetDIBits(hdcMem, hBitmap, 0, 0, NULL, &MyBMInfo, DIB_RGB_COLORS))
+	{
+		MessageBox(hWnd, "ERROR0", "Error", IDOK);
 	}
+
+	BYTE* lpPixels = new BYTE[MyBMInfo.bmiHeader.biSizeImage];
+
+	MyBMInfo.bmiHeader.biSize = sizeof(MyBMInfo.bmiHeader);
+	MyBMInfo.bmiHeader.biBitCount = 32;
+	MyBMInfo.bmiHeader.biCompression = BI_RGB;
+	MyBMInfo.bmiHeader.biHeight = (MyBMInfo.bmiHeader.biHeight < 0) ? (-MyBMInfo.bmiHeader.biHeight) : (MyBMInfo.bmiHeader.biHeight);
+
+	if (0 == GetDIBits(hdc, hBitmap, 0, MyBMInfo.bmiHeader.biHeight, (LPVOID)lpPixels, &MyBMInfo, DIB_RGB_COLORS))
+	{
+		MessageBox(hWnd, "ERROR", "Error", IDOK);
+	}
+
+	return lpPixels;
 }
 
 void Viewer::zoomHDC()
@@ -144,16 +147,6 @@ void Viewer::OnLMBUp(HWND hWnd)
 		x2 = pt.x;
 		y2 = pt.y;
 		isPressed = false;
-
-		int difX = x2 - x1;
-		if (difX != 0) scrollX += (int)difX / img_width;
-		if (scrollX < 0) scrollX = 0;
-
-		int difY = y2 - y1;
-		if (difY != 0) scrollY += (int)difY / img_height;
-		if (scrollY < 0) scrollY = 0;
-
-		InvalidateRect(hWnd, NULL, TRUE);
 	}
 }
 
@@ -167,6 +160,16 @@ void Viewer::OnMouseMove(HWND hWnd)
 		ScreenToClient(hWnd, &pt);
 		x2 = pt.x;
 		y2 = pt.y;
+
+		int difX = x2 - x1;
+		if (difX != 0) scrollX = (int)difX;
+		if (scrollX < 0) scrollX = 0;
+
+		int difY = y2 - y1;
+		if (difY != 0) scrollY = (int)difY;
+		if (scrollY < 0) scrollY = 0;
+
+		InvalidateRect(hWnd, NULL, TRUE);
 	}
 }
 
@@ -179,16 +182,16 @@ void Viewer::moveTool(int is)
 void Viewer::brightnessChange()
 {
 	int counter = 0;
-	int R, G, B, brightnessMultiplier;
-	Func_MOD1(hInst, hWnd, &brightnessMultiplier);
+	int R, G, B;
+	int brightness;
+	Func_MOD1(hInst, hWnd, &brightness);
 
 	for (int y = 0; y < img_height; y++) {
 		for (int x = 0; x < img_width; x++) {
-			COLORREF color = pixelMatrix[counter];
 
-			R = GetRValue(color) + brightnessMultiplier;
-			G = GetGValue(color) + brightnessMultiplier;
-			B = GetBValue(color) + brightnessMultiplier;
+			R = pixelMatrix[counter+2] + brightness;
+			G = pixelMatrix[counter+1] + brightness;
+			B = pixelMatrix[counter] + brightness;
 
 			if (R < 0) R = 0;
 			if (R > 255) R = 255;
@@ -197,8 +200,11 @@ void Viewer::brightnessChange()
 			if (B < 0) B = 0;
 			if (B > 255) B = 255;
 
-			pixelMatrix[counter] = RGB(R, G, B);
-			counter++;
+			pixelMatrix[counter + 2] = (BYTE)R;
+			pixelMatrix[counter + 1] = (BYTE)G;
+			pixelMatrix[counter] = (BYTE)B;
+			
+			counter+=4;
 		}
 	}
 
@@ -208,17 +214,16 @@ void Viewer::brightnessChange()
 void Viewer::contrastChange()
 {
 	int counter = 0;
-	int R, G, B, contrast;
-	const int half = 127;
+	int R, G, B;
+	int contrast;
 	Func_MOD2(hInst, hWnd, &contrast);
 	float factor = (259.0 * (contrast + 255.0)) / (255.0 * (259.0 - contrast));
 	for (int y = 0; y < img_height; y++) {
 		for (int x = 0; x < img_width; x++) {
-			COLORREF color = pixelMatrix[counter];
 
-			R = (factor * (GetRValue(color) - 128) + 128);
-			G = (factor * (GetGValue(color) - 128) + 128);
-			B = (factor * (GetBValue(color) - 128) + 128);
+			R = (factor * (pixelMatrix[counter+2] - 128) + 128);
+			G = (factor * (pixelMatrix[counter+1] - 128) + 128);
+			B = (factor * (pixelMatrix[counter] - 128) + 128);
 
 			if (R < 0) R = 0;
 			if (R > 255) R = 255;
@@ -227,8 +232,11 @@ void Viewer::contrastChange()
 			if (B < 0) B = 0;
 			if (B > 255) B = 255;
 
-			pixelMatrix[counter] = RGB(R, G, B);
-			counter++;
+			pixelMatrix[counter + 2] = (BYTE)R;
+			pixelMatrix[counter + 1] = (BYTE)G;
+			pixelMatrix[counter] = (BYTE)B;
+
+			counter += 4;
 		}
 	}
 	resetScreen();
@@ -237,16 +245,16 @@ void Viewer::contrastChange()
 void Viewer::rgbChange()
 {
 	int counter = 0;
-	int R, G, B, rMultiplier, gMultiplier, bMultiplier;
+	int R, G, B;
+	int rMultiplier, gMultiplier, bMultiplier;
 	Func_MOD3(hInst, hWnd, &rMultiplier, &gMultiplier, &bMultiplier);
 
 	for (int y = 0; y < img_height; y++) {
 		for (int x = 0; x < img_width; x++) {
-			COLORREF color = pixelMatrix[counter];
 
-			R = GetRValue(color) + rMultiplier;
-			G = GetGValue(color) + gMultiplier;
-			B = GetBValue(color) + bMultiplier;
+			R = pixelMatrix[counter + 2] + rMultiplier;
+			G = pixelMatrix[counter + 1] + gMultiplier;
+			B = pixelMatrix[counter] + bMultiplier;
 
 			if (R < 0) R = 0;
 			if (R > 255) R = 255;
@@ -255,8 +263,11 @@ void Viewer::rgbChange()
 			if (B < 0) B = 0;
 			if (B > 255) B = 255;
 
-			pixelMatrix[counter] = RGB(R, G, B);
-			counter++;
+			pixelMatrix[counter + 2] = (BYTE)R;
+			pixelMatrix[counter + 1] = (BYTE)G;
+			pixelMatrix[counter] = (BYTE)B;
+
+			counter += 4;
 		}
 	}
 
